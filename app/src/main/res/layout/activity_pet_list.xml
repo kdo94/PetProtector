@@ -33,7 +33,9 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:layout_width="150dp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:onClick="selectPetImage" />
 
     <Button
         android:text="Button"
