@@ -1,11 +1,16 @@
 package edu.orangecoastcollege.cs273.kdo94.petprotector;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.AnyRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +21,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class PetListActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE = 100;
 
     private ImageView petImageView;
     // This member variable stores the URI to whatever has been selected
@@ -31,7 +37,7 @@ public class PetListActivity extends AppCompatActivity {
         petImageView = (ImageView) findViewById(R.id.petImageView);
 
         // Constructs a full URI to any Android resource
-        //imageURI = getUriToResource(this, R.drawable.none);
+        imageURI = getUriToResource(this, R.drawable.none);
 
         // Set the imageURI of the imageView in code
         petImageView.setImageURI(imageURI);
@@ -54,13 +60,12 @@ public class PetListActivity extends AppCompatActivity {
         if (readStoragePermission != PackageManager.PERMISSION_GRANTED)
             permList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
 
-        int requestCode = 100; // can make this whatever we want
         // If the list has items, we need to request permissions from the user
         if(permList.size() > 0){
             // Convert the ArrayList into an Array of strings
             String[] perms = new String[permList.size()];
 
-            ActivityCompat.requestPermissions(this, permList.toArray(perms), requestCode);
+            ActivityCompat.requestPermissions(this, permList.toArray(perms), REQUEST_CODE);
         }
 
         // If we have all three permissions, open the ImageGallery
@@ -69,8 +74,34 @@ public class PetListActivity extends AppCompatActivity {
                 writeStoragePermission == PackageManager.PERMISSION_GRANTED){
             // Use an Intent to launch the gallery and take pictures
             Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(galleryIntent, requestCode);
+            startActivityForResult(galleryIntent, REQUEST_CODE);
             Toast.makeText(this, "Pet Protector requires camera and external storage permission", Toast.LENGTH_SHORT);
         }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Code to handle when the user closes the image gallery (by selecting an image
+        // or pressing the back button)
+
+        // The Intent data is the URI selected from the image gallery
+        // Decide if the user selected an image:
+        if(data != null && requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+            // set the imageURI to the data:
+            imageURI = data.getData();
+            petImageView.setImageURI(imageURI);
+        }
+    }
+
+    public static Uri getUriToResource(@NonNull Context context, @AnyRes int resId) throws Resources.NotFoundException{
+        // Return a Resources instance for your application's package
+        Resources res = context.getResources();
+        // Return URI
+        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                        "://" + res.getResourcePackageName(resId) +
+                        '/' + res.getResourceTypeName(resId) +
+                        '/' + res.getResourceEntryName(resId));
     }
 }
