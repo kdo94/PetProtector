@@ -53,7 +53,7 @@ public class PetListActivity extends AppCompatActivity {
         // Set the imageURI of the imageView in code
         petImageView.setImageURI(imageURI);
 
-        this.deleteDatabase(DBHelper.DATABASE_NAME);
+        //this.deleteDatabase(DBHelper.DATABASE_NAME);
         db = new DBHelper(this);
         petsList = db.getAllPets();
 
