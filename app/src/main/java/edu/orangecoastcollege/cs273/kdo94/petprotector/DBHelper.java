@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 
 import java.util.ArrayList;
 
@@ -71,7 +72,7 @@ class DBHelper extends SQLiteOpenHelper {
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getInt(3),
-                        cursor.getString(4));
+                        Uri.parse(cursor.getString(4)));
                 petList.add(pet);
             }while(cursor.moveToNext());
         }

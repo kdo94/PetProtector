@@ -29,6 +29,7 @@ public class PetListActivity extends AppCompatActivity {
     private ImageView petImageView;
     // This member variable stores the URI to whatever has been selected
     // Default: none.png (R.drawable.none)
+    public Uri defaultURI = Uri.parse("getUriToResource(this, R.drawable.none)");
     private Uri imageURI;
     private DBHelper db;
     private List<Pet> petsList;
@@ -52,6 +53,7 @@ public class PetListActivity extends AppCompatActivity {
         // Set the imageURI of the imageView in code
         petImageView.setImageURI(imageURI);
 
+        this.deleteDatabase(DBHelper.DATABASE_NAME);
         db = new DBHelper(this);
         petsList = db.getAllPets();
 
@@ -132,27 +134,26 @@ public class PetListActivity extends AppCompatActivity {
         Pet pet = (Pet) view.getTag();
         String name = pet.getPetName();
         String details = pet.getPetDetails();
-        int phone = pet.getPhoneNumber();
-        String petImage = pet.getPetImageURI();
+        long phone = pet.getPhoneNumber();
+        Uri petImage = pet.getPetImageURI();
 
         petDetails.putExtra("Pet Name", name);
         petDetails.putExtra("Pet Details", details);
         petDetails.putExtra("Phone Number", phone);
-        petDetails.putExtra("Pet Image", petImage);
+        petDetails.putExtra("Pet Image", String.valueOf(petImage));
         startActivity(petDetails);
     }
 
     public void addPet(View view){
         String name = nameEditText.getText().toString();
         String details = detailsEditText.getText().toString();
+        long phone = Long.parseLong(phoneEditText.getText().toString());
 
-
-        if(name.equals("") || details.equals("") || phoneEditText.getText().toString().equals("")){
-            Toast.makeText(this, "Fields may not be empty.", Toast.LENGTH_SHORT).show();
+        if(name.equals("") || details.equals("") || phoneEditText.getText().toString().equals("") || String.valueOf(phone).length() != 10){
+            Toast.makeText(this, "Fields may not be empty or phone is incorrect format.", Toast.LENGTH_SHORT).show();
         }
         else{
-            int phone = Integer.parseInt(phoneEditText.getText().toString());
-            Pet newPet = new Pet(name, details, phone, imageURI.toString());
+            Pet newPet = new Pet(name, details, phone, imageURI);
             petListAdapter.add(newPet);
             db.addPet(newPet);
             nameEditText.setText("");

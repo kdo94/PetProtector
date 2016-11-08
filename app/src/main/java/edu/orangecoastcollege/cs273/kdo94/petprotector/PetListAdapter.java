@@ -2,7 +2,6 @@ package edu.orangecoastcollege.cs273.kdo94.petprotector;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +48,7 @@ public class PetListAdapter extends ArrayAdapter<Pet>{
 
         nameListTextView.setText(selectedPet.getPetName());
         detailsListTextView.setText(selectedPet.getPetDetails());
-        petListImageView.setImageURI(Uri.parse(selectedPet.mPetImageURI));
+        petListImageView.setImageURI(selectedPet.mPetImageURI);
 
 
         return view;

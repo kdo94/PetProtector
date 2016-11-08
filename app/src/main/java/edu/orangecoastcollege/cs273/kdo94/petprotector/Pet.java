@@ -1,5 +1,8 @@
 package edu.orangecoastcollege.cs273.kdo94.petprotector;
 
+import android.net.Uri;
+
+
 /**
  * Created by kevin_000 on 11/7/2016.
  */
@@ -8,18 +11,18 @@ public class Pet {
     int mId;
     String mPetName;
     String mPetDetails;
-    int mPhoneNumber;
-    String mPetImageURI;
+    long mPhoneNumber;
+    Uri mPetImageURI;
 
     public Pet() {
         mId = -1;
         mPetName = "";
         mPetDetails = "";
         mPhoneNumber = 0;
-        mPetImageURI = "";
+        mPetImageURI = Uri.parse("getUriToResource(this, R.drawable.none)");
     }
 
-    public Pet(int id, String petName, String petDetails, int phoneNumber, String petImageURI) {
+    public Pet(int id, String petName, String petDetails, long phoneNumber, Uri petImageURI) {
         mId = id;
         mPetName = petName;
         mPetDetails = petDetails;
@@ -27,16 +30,8 @@ public class Pet {
         mPetImageURI = petImageURI;
     }
 
-    public Pet(String petName, String petDetails, int phone){
-        this(-1, petName, petDetails, phone, "");
-    }
-
-    public Pet(String petName, String petDetails, int phone, String petImage){
+    public Pet(String petName, String petDetails, long phone, Uri petImage){
         this(-1, petName, petDetails, phone, petImage);
-    }
-
-    public int getId(){
-        return mId;
     }
 
     public String getPetName() {
@@ -55,7 +50,7 @@ public class Pet {
         mPetDetails = petDetails;
     }
 
-    public int getPhoneNumber() {
+    public long getPhoneNumber() {
         return mPhoneNumber;
     }
 
@@ -63,12 +58,13 @@ public class Pet {
         mPhoneNumber = phoneNumber;
     }
 
-    public String getPetImageURI() {
+    public Uri getPetImageURI() {
         return mPetImageURI;
     }
 
-    public void setPetImageURI(String petImageURI) {
+    public void setPetImageURI(Uri petImageURI) {
         mPetImageURI = petImageURI;
     }
+
 }
 

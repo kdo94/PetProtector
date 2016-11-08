@@ -1,6 +1,7 @@
 package edu.orangecoastcollege.cs273.kdo94.petprotector;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -25,5 +26,10 @@ public class PetDetailsActivity extends AppCompatActivity {
 
         Intent petDetails = getIntent();
         detailsNameTextView.setText(petDetails.getStringExtra("Pet Name"));
+        detailsPetDetailsTextView.setText(petDetails.getStringExtra("Pet Details"));
+        String phone = String.valueOf(petDetails.getLongExtra("Phone Number", 0));
+        detailsPhoneTextView.setText("(" + phone.substring(0, 3) + ") " + phone.substring(3, 6) + " - " + phone.substring(6));
+        detailsPetImageView.setImageURI(Uri.parse(petDetails.getStringExtra("Pet Image")));
+
     }
 }
