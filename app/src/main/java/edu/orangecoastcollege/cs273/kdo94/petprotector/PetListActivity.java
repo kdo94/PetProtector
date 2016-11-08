@@ -15,10 +15,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PetListActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 100;
@@ -27,6 +30,13 @@ public class PetListActivity extends AppCompatActivity {
     // This member variable stores the URI to whatever has been selected
     // Default: none.png (R.drawable.none)
     private Uri imageURI;
+    private DBHelper db;
+    private List<Pet> petsList;
+    private PetListAdapter petListAdapter;
+    private ListView petListView;
+    private EditText nameEditText;
+    private EditText detailsEditText;
+    private EditText phoneEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,18 @@ public class PetListActivity extends AppCompatActivity {
 
         // Set the imageURI of the imageView in code
         petImageView.setImageURI(imageURI);
+
+        db = new DBHelper(this);
+        petsList = db.getAllPets();
+
+        petListAdapter = new PetListAdapter(this, R.layout.simple_list_item_1, petsList);
+        petListView = (ListView) findViewById(R.id.petListView);
+        petListView.setAdapter(petListAdapter);
+
+        nameEditText = (EditText) findViewById(R.id.nameEditText);
+        detailsEditText = (EditText) findViewById(R.id.detailsEditText);
+        phoneEditText = (EditText) findViewById(R.id.phoneEditText);
+
     }
 
     public void selectPetImage(View view){
@@ -103,5 +125,24 @@ public class PetListActivity extends AppCompatActivity {
                         "://" + res.getResourcePackageName(resId) +
                         '/' + res.getResourceTypeName(resId) +
                         '/' + res.getResourceEntryName(resId));
+    }
+
+    public void addPet(View view){
+        String name = nameEditText.getText().toString();
+        String details = detailsEditText.getText().toString();
+
+
+        if(name.equals("") || details.equals("") || phoneEditText.getText().toString().equals("")){
+            Toast.makeText(this, "Fields may not be empty.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            int phone = Integer.parseInt(phoneEditText.getText().toString());
+            Pet newPet = new Pet(name, details, phone, imageURI.toString());
+            petListAdapter.add(newPet);
+            db.addPet(newPet);
+            nameEditText.setText("");
+            detailsEditText.setText("");
+            phoneEditText.setText("");
+        }
     }
 }
