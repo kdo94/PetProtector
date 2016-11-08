@@ -45,6 +45,11 @@ class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    /**
+     * Adds a pet to the Pets table database
+     *
+     * @param pet Pet to be added to the database
+     */
     public void addPet(Pet pet){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -56,6 +61,11 @@ class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    /**
+     * Gets all pets in the Pets table database and puts them into a list
+     *
+     * @return A list of all the pets in the Pets table database
+     */
     public ArrayList<Pet> getAllPets(){
         ArrayList<Pet> petList = new ArrayList<>();
 

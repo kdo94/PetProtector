@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/detailsNameTextView"
             android:layout_gravity="center"
-            android:textSize="30sp"
+            android:textSize="45sp"
             android:gravity="center" />
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/detailsPetDetailsTextView"
             android:layout_gravity="center"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:gravity="center" />
 
         <TextView
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/detailsPhoneTextView"
             android:layout_gravity="center"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:gravity="center" />
     </LinearLayout>
 

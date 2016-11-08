@@ -29,7 +29,6 @@ public class PetListActivity extends AppCompatActivity {
     private ImageView petImageView;
     // This member variable stores the URI to whatever has been selected
     // Default: none.png (R.drawable.none)
-    public Uri defaultURI = Uri.parse("getUriToResource(this, R.drawable.none)");
     private Uri imageURI;
     private DBHelper db;
     private List<Pet> petsList;
@@ -119,6 +118,15 @@ public class PetListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get uri to ny resource type within an Android Studio project. Method is public static
+     * to allow other classes to use it as a helper function
+     *
+     * @param context the current context
+     * @param resId The resource identifier of the drawable
+     * @return Uri to resource by given id
+     * @throws Resources.NotFoundException If the given id does not exist
+     */
     public static Uri getUriToResource(@NonNull Context context, @AnyRes int resId) throws Resources.NotFoundException{
         // Return a Resources instance for your application's package
         Resources res = context.getResources();
@@ -129,6 +137,13 @@ public class PetListActivity extends AppCompatActivity {
                         '/' + res.getResourceEntryName(resId));
     }
 
+    /**
+     * Creates an intent to send to PetDetailsActivity
+     * Depending on the pet selected from the view, all
+     * data will be passed to the intent about the pet
+     *
+     * @param view The current view
+     */
     public void viewPetDetails(View view){
         Intent petDetails = new Intent(this, PetDetailsActivity.class);
         Pet pet = (Pet) view.getTag();
@@ -144,6 +159,12 @@ public class PetListActivity extends AppCompatActivity {
         startActivity(petDetails);
     }
 
+    /**
+     * Adds a pet to the database, if any of the fields are empty or the
+     * format for the phone is incorrect nothing will be added and a Toast
+     * will appear notifying the user
+     * @param view  The current view
+     */
     public void addPet(View view){
         String name = nameEditText.getText().toString();
         String details = detailsEditText.getText().toString();
@@ -159,6 +180,7 @@ public class PetListActivity extends AppCompatActivity {
             nameEditText.setText("");
             detailsEditText.setText("");
             phoneEditText.setText("");
+            petImageView.setImageURI(getUriToResource(this, R.drawable.none));
         }
     }
 }
