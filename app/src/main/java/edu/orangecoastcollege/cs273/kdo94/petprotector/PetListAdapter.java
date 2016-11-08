@@ -19,6 +19,7 @@ import java.util.List;
  */
 
 public class PetListAdapter extends ArrayAdapter<Pet>{
+
     private Context mContext;
     private List<Pet> mPetList = new ArrayList<>();
     private int mResourceId;

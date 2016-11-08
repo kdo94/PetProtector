@@ -127,6 +127,21 @@ public class PetListActivity extends AppCompatActivity {
                         '/' + res.getResourceEntryName(resId));
     }
 
+    public void viewPetDetails(View view){
+        Intent petDetails = new Intent(this, PetDetailsActivity.class);
+        Pet pet = (Pet) view.getTag();
+        String name = pet.getPetName();
+        String details = pet.getPetDetails();
+        int phone = pet.getPhoneNumber();
+        String petImage = pet.getPetImageURI();
+
+        petDetails.putExtra("Pet Name", name);
+        petDetails.putExtra("Pet Details", details);
+        petDetails.putExtra("Phone Number", phone);
+        petDetails.putExtra("Pet Image", petImage);
+        startActivity(petDetails);
+    }
+
     public void addPet(View view){
         String name = nameEditText.getText().toString();
         String details = detailsEditText.getText().toString();
